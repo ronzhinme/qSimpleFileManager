@@ -30,8 +30,6 @@ Project {
             "src/model/dirEntryModel.cpp",
             "src/model/dirEntryModel.h",
             "src/main.cpp",
-            "src/struct/directoryEntry.cpp",
-            "src/struct/directoryEntry.h",
         ]
 
         Group {     // Properties for the produced executable

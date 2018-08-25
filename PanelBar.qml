@@ -22,10 +22,21 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
         clip: true
-        model: dirModel
+        model: dirModel.model
         delegate: ItemDelegate {
+            width: parent.width
             Text {
-                text: index
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                text: edit
+            }
+
+            Component.onCompleted: {
+                if(edit === ".") {
+                    height = 0
+                    visible = false
+                }
             }
         }
     }
