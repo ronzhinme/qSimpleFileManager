@@ -4,13 +4,21 @@ import Models 1.0
 
 Item {
 
-    DirEntryModel {id: dirModel}
+    DirEntryModel { id: dirModel }
+
+    Connections {
+        target: dirModel
+        onCurDirChanged: {
+            diretory.text = dirModel.curDir
+        }
+    }
 
     TextField {
         id: diretory
         anchors.left: parent.left
         width: parent.width
         height: 30
+        text: dirModel.curDir
     }
 
     ListView {
@@ -22,22 +30,30 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
         clip: true
-        model: dirModel.model
+        model: dirModel
+
         delegate: ItemDelegate {
             width: parent.width
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 5
-                text: edit
+                text: edit.fileName
             }
 
             Component.onCompleted: {
-                if(edit === ".") {
+                if(edit.fileName === ".") {
                     height = 0
                     visible = false
                 }
             }
+
+            onDoubleClicked: {
+//                console.log("doAction: " + edit.fileName)
+                dirModel.doAction(edit)
+            }
         }
     }
+
+
 }

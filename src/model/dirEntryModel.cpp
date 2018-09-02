@@ -1,9 +1,9 @@
 #include "dirEntryModel.h"
+
 #include <QDebug>
 
 DirEntryModel::DirEntryModel(QObject *parent) : QAbstractListModel(parent)
 {
-    setCurrentDirectory(QFileInfo(".").absolutePath());
 }
 
 QAbstractItemModel * DirEntryModel::model()
@@ -11,15 +11,20 @@ QAbstractItemModel * DirEntryModel::model()
     return this;
 }
 
-const QString &DirEntryModel::currentDirectory() const
+QString DirEntryModel::curDir() const
 {
-    return m_dir.dirName();
+    return m_dir.absolutePath();
 }
 
-void DirEntryModel::setCurrentDirectory(const QString &val)
+void DirEntryModel::doAction(const FileInfo & val)
 {
-    m_dir.cd(val);
-    Q_EMIT currentDirectoryChanged();
+    qDebug() << __FUNCTION__ << val.fileName() << " isDir:" << val.isDir();
+    if(val.isDir())
+    {
+        m_dir.cd(val.fileName());
+        Q_EMIT curDirChanged();
+        Q_EMIT layoutChanged();
+    }
 }
 
 int DirEntryModel::rowCount(const QModelIndex &parent) const
@@ -29,8 +34,8 @@ int DirEntryModel::rowCount(const QModelIndex &parent) const
 
 QVariant DirEntryModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid()) return QVariant();
+    if(!index.isValid())
+        return QVariant();
 
-    return QVariant::fromValue(m_dir.entryInfoList()[index.row()].fileName());
+    return QVariant::fromValue(FileInfo(m_dir.entryInfoList()[index.row()]));
 }
-

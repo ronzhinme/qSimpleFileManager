@@ -3,24 +3,24 @@
 
 #include <QAbstractListModel>
 #include <QDir>
-#include "../struct/directoryEntry.h"
+
+#include "../struct/fileInfo.h"
 
 class DirEntryModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel * model READ model NOTIFY modelChanged)
-    Q_PROPERTY(QString currentDirectory READ currentDirectory WRITE setCurrentDirectory NOTIFY currentDirectoryChanged)
+    Q_PROPERTY(QAbstractItemModel * model READ model CONSTANT)
+    Q_PROPERTY(QString curDir READ curDir NOTIFY curDirChanged)
 public:
     DirEntryModel(QObject * parent = Q_NULLPTR);
     QAbstractItemModel * model();
-    const QString & currentDirectory() const;
+    QString curDir() const;
 
-    void setCurrentDirectory(const QString & val);
+    Q_INVOKABLE void doAction(const FileInfo & val);
 private:
     QDir m_dir;
 Q_SIGNALS:
-    void modelChanged();
-    void currentDirectoryChanged();
+    void curDirChanged();
 
 public:
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override;
