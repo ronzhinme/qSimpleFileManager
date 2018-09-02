@@ -34,9 +34,19 @@ Item {
 
         delegate: ItemDelegate {
             width: parent.width
+            height: 30
+
+            Image {
+                id: dirEntryImage
+                width: 20
+                height: 20
+                anchors.verticalCenter: parent.verticalCenter
+                source: edit.isDir ? "./images/Folder-Accept.png" : ""
+            }
+
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
+                anchors.left: dirEntryImage.right
                 anchors.leftMargin: 5
                 text: edit.fileName
             }
@@ -49,7 +59,6 @@ Item {
             }
 
             onDoubleClicked: {
-//                console.log("doAction: " + edit.fileName)
                 dirModel.doAction(edit)
             }
         }
