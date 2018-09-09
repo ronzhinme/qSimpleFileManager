@@ -31,6 +31,19 @@ Item {
         width: parent.width
         clip: true
         model: dirModel
+        focus: true
+        highlight: Rectangle {
+            color: "#aaaaaa";
+            height: 20;
+            width: directoryListView.width;
+            y: directoryListView.currentItem.y
+            Behavior on y {
+                SpringAnimation {
+                    spring: 3
+                    damping: 0.2
+                }
+            }
+        }
 
         delegate: ItemDelegate {
             width: parent.width
@@ -58,11 +71,13 @@ Item {
                 }
             }
 
+            onClicked: {
+                directoryListView.currentIndex = index
+            }
+
             onDoubleClicked: {
                 dirModel.doAction(edit)
             }
         }
     }
-
-
 }

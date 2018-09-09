@@ -48,4 +48,11 @@ Window {
         height: 30
         color: "#aaaaaa"
     }
+
+    Shortcut {
+        sequence: "Tab"
+        context: "ApplicationShortcut"
+        onActivated: {
+        }
+    }
 }
