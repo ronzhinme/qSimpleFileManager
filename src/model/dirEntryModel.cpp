@@ -27,6 +27,15 @@ void DirEntryModel::doAction(const FileInfo & val)
     }
 }
 
+void DirEntryModel::doAction(int row)
+{
+    if(!this->index(row,0).isValid())
+        return;
+
+    const FileInfo finfo(m_dir.entryInfoList()[row]);
+    doAction(finfo);
+}
+
 int DirEntryModel::rowCount(const QModelIndex &parent) const
 {
     return m_dir.count();

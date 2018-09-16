@@ -4,10 +4,14 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls 2.2
 
 Window {
+    id: appMainWindow
     visible: true
     width: 640
     height: 480
     title: qsTr("qSimpleFileManager")
+
+    property bool isLeftTabActive: true
+    property Window mainWindow: appMainWindow
 
     Rectangle {
         id: mainMenuBar
@@ -26,10 +30,12 @@ Window {
         PanelBar {
             id: leftBar
             width: parent.width / 2
+            isTabFocused: isLeftTabActive
         }
 
         PanelBar {
             id: rightBar
+            isTabFocused: !isLeftTabActive
         }
     }
 
@@ -53,6 +59,7 @@ Window {
         sequence: "Tab"
         context: "ApplicationShortcut"
         onActivated: {
+            isLeftTabActive = !isLeftTabActive
         }
     }
 }

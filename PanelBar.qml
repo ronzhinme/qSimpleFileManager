@@ -1,8 +1,10 @@
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Controls 2.2
 import Models 1.0
 
 Item {
+
+    property alias isTabFocused: directoryListView.focus
 
     DirEntryModel { id: dirModel }
 
@@ -31,12 +33,11 @@ Item {
         width: parent.width
         clip: true
         model: dirModel
-        focus: true
         highlight: Rectangle {
-            color: "#aaaaaa";
+            color: isTabFocused ? "#aaaaaa" : "#dddddd";
             height: 20;
             width: directoryListView.width;
-            y: directoryListView.currentItem.y
+            y: directoryListView.currentItem ? directoryListView.currentItem.y : 0
             Behavior on y {
                 SpringAnimation {
                     spring: 3
@@ -46,6 +47,7 @@ Item {
         }
 
         delegate: ItemDelegate {
+            readonly property string fileName: edit.fileName
             width: parent.width
             height: 30
 
@@ -61,7 +63,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: dirEntryImage.right
                 anchors.leftMargin: 5
-                text: edit.fileName
+                text: fileName
             }
 
             Component.onCompleted: {
@@ -77,6 +79,18 @@ Item {
 
             onDoubleClicked: {
                 dirModel.doAction(edit)
+            }
+        }
+
+        onCurrentIndexChanged: {
+            if(currentItem.fileName === ".") currentIndex = 1
+        }
+
+        Keys.onPressed: {
+            if(event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                dirModel.doAction(currentIndex)
+                currentIndex = 0
+                if(currentItem.fileName === ".") currentIndex = 1
             }
         }
     }

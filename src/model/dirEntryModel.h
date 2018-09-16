@@ -17,6 +17,7 @@ public:
     QString curDir() const;
 
     Q_INVOKABLE void doAction(const FileInfo & val);
+    Q_INVOKABLE void doAction(int row);
 private:
     QDir m_dir;
 Q_SIGNALS:
