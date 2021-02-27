@@ -8,11 +8,8 @@ Item {
 
     DirEntryModel { id: dirModel }
 
-    Connections {
-        target: dirModel
-        onCurDirChanged: {
-            diretory.text = dirModel.curDir
-        }
+    function onCurDirChanged() {
+         diretory.text = dirModel.curDir
     }
 
     TextField {
@@ -48,7 +45,7 @@ Item {
 
         delegate: ItemDelegate {
             readonly property string fileName: edit.fileName
-            width: parent.width
+            width: directoryListView.width
             height: 30
 
             Image {

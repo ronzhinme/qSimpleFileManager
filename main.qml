@@ -1,7 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
-import QtQuick.Controls 1.4
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.13
 
 Window {
     id: appMainWindow
@@ -22,19 +21,29 @@ Window {
     }
 
     SplitView {
+        id: splitView
         anchors.top: mainMenuBar.bottom
         anchors.bottom: buttonsBar.top
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
         orientation: Qt.Horizontal
+        handle: Rectangle {
+            implicitWidth: 5
+            implicitHeight: 5
+            color: splitView.pressed ? "#999999" : SplitHandle.hovered ? Qt.lighter("#aaaaaa", 1.1): "#aaaaaa"
+        }
 
         PanelBar {
             id: leftBar
-            width: parent.width / 2
+            SplitView.preferredWidth: splitView.width / 2
+            SplitView.minimumWidth: 100
             isTabFocused: isLeftTabActive
         }
 
         PanelBar {
             id: rightBar
+            SplitView.preferredWidth: splitView.width / 2
+            SplitView.minimumWidth: 100
             isTabFocused: !isLeftTabActive
         }
     }
