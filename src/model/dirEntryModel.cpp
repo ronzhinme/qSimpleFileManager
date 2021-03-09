@@ -32,19 +32,22 @@ void DirEntryModel::doAction(int row)
     if(!this->index(row,0).isValid())
         return;
 
-    const FileInfo finfo(m_dir.entryInfoList()[row]);
+    const FileInfo finfo(m_dir.entryInfoList().at(row));
     doAction(finfo);
 }
 
 int DirEntryModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return m_dir.count();
 }
 
 QVariant DirEntryModel::data(const QModelIndex &index, int role) const
 {
+    Q_UNUSED(role);
+
     if(!index.isValid())
         return QVariant();
 
-    return QVariant::fromValue(FileInfo(m_dir.entryInfoList()[index.row()]));
+    return QVariant::fromValue(FileInfo(m_dir.entryInfoList().at(index.row())));
 }
